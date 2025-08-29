@@ -8,12 +8,19 @@ export type Group = {
     error: { message: string; color: Hex } | null;
 };
 
-export type RowSpec = { seats: number; vGap: number }; // vGap — вертикальный отступ сверху для ЭТОГО ряда (px)
 
-export type SectionState = {
-    id: string;
+export type Align = "left" | "center" | "right";
+
+export type SectionPatternId =
+    | "custom"
+    | "ФТЛ_КЗ_Левая"
+    | "ФТЛ_КЗ_Центральная"
+    | "ФТЛ_КЗ_Правая";
+
+export type SectionPattern = {
+    id: SectionPatternId;
     name: string;
-    rows: RowSpec[]; // массив (кол-во мест в ряду + вертикальный зазор до следующего ряда)
+    align: Align;
+    vGap: number;
+    rows: number[];
 };
-
-export type SectionType = "Партер" | "Балкон" | "Ложа";

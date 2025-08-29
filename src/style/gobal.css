@@ -1,0 +1,10 @@
+/* reset для ровного центра */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+    margin: 0;                 /* ← убираем белый padding браузера */
+    background: #F4F6F8;       /* твой небелый фон */
+    color: #111;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,32 @@
+.sec-rowHeader {
+    display:flex; align-items:center; gap:8px; margin-bottom:6px;
+    color:#666; font-size:13px;
+}
+.sec-rowTitle { position:relative; padding:2px 6px; border-radius:6px; }
+.sec-rowTitle:hover { background:#ffecec; color:#b71c1c; cursor:pointer; }
+.sec-rowTitle:hover::after {
+    content:"удалить ряд"; margin-left:6px; color:#b71c1c; font-weight:600;
+}
+
+.sec-line { display:flex; gap:6px; justify-content:flex-start; }
+
+.sec-seat, .sec-seatAdd {
+    width:20px; height:20px; border-radius:6px; border:1px solid #e6e6e6;
+}
+.sec-seat { background:#f1f1f1; position:relative; cursor:pointer; }
+.sec-seat:hover { background:#ffe7e7; border-color:#ffd0d0; }
+.sec-seat:hover::after {
+    content:"✕"; position:absolute; inset:0; display:grid; place-items:center;
+    color:#b71c1c; font-size:12px; font-weight:700;
+}
+
+.sec-seatAdd { background:#e6f0ff; border-color:#cfe0ff; cursor:pointer; }
+.sec-seatAdd:hover { background:#d9e8ff; }
+
+.sec-header { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.sec-input { padding:6px 8px; border-radius:8px; border:1px solid #e0e0e0; min-width:160px; }
+.sec-btn {
+    padding:6px 10px; border-radius:8px; border:1px solid #e0e0e0; background:#fff; cursor:pointer; font-size:13px;
+}
+.sec-btn.active { border-color:#b0bec5; background:#e8f0fe; }
+.sec-counters { margin-left:auto; font-size:13px; color:#555; display:flex; gap:12px; }

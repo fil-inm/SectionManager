@@ -1,6 +1,6 @@
 {
   "name": "SectionManager",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "preversion": "npm run build",
-
     "postversion": "git push && git push --tags",
     "release:patch": "npm version patch -m \"chore(release): v%s\"",
     "release:minor": "npm version minor -m \"chore(release): v%s\"",

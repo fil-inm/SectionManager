@@ -1,24 +1,26 @@
-/tmp
-/out-tsc
-
-/node_modules
+# build / cache
+dist/
+node_modules/
+.out/
+.cache/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/.pnp
-.pnp.js
+pnpm-debug.log*
+.vite/
+.eslintcache
+*.tsbuildinfo
 
+# editors
 .vscode/*
+.DS_Store
 
-# IntelliJ IDEA / WebStorm / CLion
+# JetBrains
 .idea/*
 !.idea/modules.xml
 !.idea/*.iml
-!.idea/*.xml
-!.idea/codeStyles
-!.idea/material_theme_project_new.xml
-
-# Не нужны личные настройки
+# локальное и мусор
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries

@@ -1,11 +1,12 @@
 // src/components/SectionMap.tsx
-import { useMemo, useState } from "react";
-import { useSection } from "../hooks/useSection";
+import {useMemo, useState} from "react";
+import {useSection} from "../hooks/useSection";
 import Section from "./Section";
 import GroupList from "./GroupList";
-import { randomPastel } from "../helpers/random";
-import type { Group, Hex, Align, SectionPattern, SectionPatternId } from "../types";
-import { SECTION_PATTERNS } from "../patterns/sectionPatterns";
+import {randomPastel} from "../helpers/random";
+import type {Group, Hex, Align, SectionPattern, SectionPatternId} from "../types";
+import {SECTION_PATTERNS} from "../patterns/sectionPatterns";
+import SectionBare from "./SectionBare";
 
 function mkGroup(): Group {
     return {
@@ -33,25 +34,24 @@ function assignBottomUp(rows: { seats: number }[], groups: Group[]): (Hex | null
                 need--;
             }
         }
-        if (i >= groups.length) break;
     }
     return mat;
 }
 
 type Props = {
     title: string;
-    layoutRef?: React.MutableRefObject<HTMLDivElement | null>;
+    schemeRef?: React.MutableRefObject<HTMLDivElement | null>; // вместо layoutRef
     annoRef?: React.MutableRefObject<HTMLDivElement | null>;
 };
 
-export default function SectionMap({ title, layoutRef, annoRef }: Props) {
-    const { section } = useSection({
+export default function SectionMap({title, schemeRef, annoRef}: Props) {
+    const {section} = useSection({
         name: title,
         rows: [
-            { seats: 10, vGap: 8 },
-            { seats: 12, vGap: 8 },
-            { seats: 12, vGap: 8 },
-            { seats: 14, vGap: 10 },
+            {seats: 10, vGap: 8},
+            {seats: 12, vGap: 8},
+            {seats: 12, vGap: 8},
+            {seats: 14, vGap: 10},
         ],
     });
 
@@ -108,87 +108,55 @@ export default function SectionMap({ title, layoutRef, annoRef }: Props) {
                 onAdd={() => setGroups((p) => [...p, mkGroup()])}
             />
 
-            {/* ПЕЧАТЬ: страница 1 (макет секции) */}
             <div
-                ref={layoutRef}
+                ref={schemeRef}
                 style={{
-                    position: "fixed",
-                    left: -99999,
-                    top: 0,
-                    width: 800,
-                    padding: 16,
-                    background: "#fff",
-                    color: "#000",
+                    position: "fixed", left: -99999, top: 0,
+                    width: 1200,                   // было 800 — даём больше «холст» для html2canvas
+                    padding: 16, background: "#fff", color: "#000"
                 }}
             >
-                <h2 style={{ margin: "0 0 8px 0" }}>{name}</h2>
-                <Section
+                <div style={{fontSize: 18, fontWeight: 800, marginBottom: 8}}>{name}</div>
+                <SectionBare
                     name={name}
-                    onNameChange={() => {}}
                     rows={rows}
-                    onRowsChange={() => {}}
-                    align={align}
-                    onAlignChange={() => {}}
-                    pattern={pattern}
-                    onPatternChange={() => {}}
-                    patterns={SECTION_PATTERNS as Record<SectionPatternId, SectionPattern>}
                     seatColors={seatColors}
-                    hGap={6}
+                    seatSize={20}                  // печатаем крупнее
+                    hGap={5}
+                    align={align}                  // 👈 сохраняем выравнивание
                 />
             </div>
 
-            {/* ПЕЧАТЬ: страница 2 (аннотация) */}
             <div
                 ref={annoRef}
                 style={{
-                    position: "fixed",
-                    left: -99999,
-                    top: 0,
-                    width: 800,
-                    padding: 16,
-                    background: "#fff",
-                    color: "#000",
+                    position: "fixed", left: -99999, top: 0,
+                    width: 1200,                   // тоже шире
+                    padding: 16, background: "#fff", color: "#000"
                 }}
             >
-                <h2 style={{ margin: "0 0 8px 0" }}>{name}</h2>
-                <h3 style={{ margin: "0 0 8px 0" }}>Аннотация</h3>
-                <ul
-                    style={{
-                        listStyle: "none",
-                        margin: 0,
-                        padding: 0,
-                        display: "grid",
-                        gap: 6,
-                        fontSize: 14,
-                    }}
-                >
-                    {groups.map((g) => (
-                        <li key={g.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span
-                  style={{
-                      width: 12,
-                      height: 12,
-                      borderRadius: 999,
-                      border: "1px solid #ddd",
-                      background: g.color,
-                      display: "inline-block",
-                  }}
-              />
-                            <span
-                                style={{
-                                    fontWeight: 600,
-                                    maxWidth: 260,
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                }}
-                            >
-                {g.name || "Без имени"}
-              </span>
-                            <span style={{ marginLeft: "auto" }}>мест: {g.requiredSeats}</span>
-                        </li>
+                <div style={{fontSize: 20, fontWeight: 800, textTransform: "uppercase", marginBottom: 12}}>
+                    {name}
+                </div>
+                <div style={{display: "grid", gap: 12}}>
+                    {groups.map(g => (
+                        <div key={g.id} style={{display: "flex", alignItems: "center", gap: 14}}>
+        <span style={{
+            width: 26, height: 26, borderRadius: 999, border: "1px solid #aaa",
+            background: g.color, display: "inline-block"
+        }}/>
+                            <div style={{
+                                fontSize: 16,
+                                fontWeight: 600,
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis"
+                            }}>
+                                {g.name || "Без имени"}
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
         </div>
     );
